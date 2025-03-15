@@ -1,5 +1,6 @@
 import os
 import json
+import time
 import warnings
 import numpy as np
 import pandas as pd
@@ -27,8 +28,8 @@ analyst = GymDataAnalyzer()
 
 def set_bot_commands(updater: Updater):
     updater.bot.set_my_commands([BotCommand("start", "Starts a new workout"),
-                                 BotCommand("wstats", "Returns weight statistics for a specific exercise"),
-                                 BotCommand("last", "Returns last reps and weight for the current exercise"),
+                                 BotCommand("wstats", "Returns weight statistics"),
+                                 BotCommand("last", "Returns last reps and weight"),
                                  BotCommand("stop", "Stops the current workout")])
 
 def generate_day_keyboard():
@@ -77,7 +78,7 @@ def get_response(update, context):
     query.answer()
 
     with open(analyst.get_weight_stats(query.data), "rb") as img:
-        context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"Sənin zaman içində {query.data} inkişafın 💪")
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"{query.data} inkişafın 💪")
     query.delete_message()
         
 def start(update, context):
@@ -111,6 +112,7 @@ def tracking_exercise(update, context):
     workoutdata.current_exercise_data = workoutdata.selected_exercises[workoutdata.current_index]
     if workoutdata.current_set_number <= workoutdata.current_exercise_data["sets"]:
         workoutdata.current_exercise = workoutdata.current_exercise_data['exercise']
+        time.sleep(105)
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"🎯 _Set {workoutdata.current_set_number} \- {workoutdata.current_exercise} {workoutdata.current_exercise_data['min_reps']}/{workoutdata.current_exercise_data['max_reps']}_", parse_mode=ParseMode.MARKDOWN_V2)
         context.bot.send_message(chat_id=update.effective_chat.id, text="Neçə təkrar etdin? 🔄", reply_markup=generate_reps_keyboard(workoutdata.current_exercise_data['min_reps'], workoutdata.current_exercise_data['max_reps']))
         context.bot.send_message(chat_id=update.effective_chat.id, text="Neçə kiloqramla işlədin? 🏋️‍♂️", reply_markup=generate_weight_keyboard())
@@ -147,7 +149,7 @@ def save_data(update, context):
             query.delete_message()
         except ValueError as e:
             with open(analyst.get_weight_stats(query.data), "rb") as img:
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"Sənin zaman içində {query.data} inkişafın 💪")
+                context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"{query.data} inkişafın 💪")
             query.delete_message()
             return SAVE_DATA
 
