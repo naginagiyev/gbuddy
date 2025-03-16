@@ -9,7 +9,7 @@ class GymDataAnalyzer:
 
     def load_data(self):
         self.data = pd.read_pickle(os.path.join(os.getcwd(), "data.pkl"))
-        self.data['date'] = pd.to_datetime(self.data['date'])
+        self.data['date'] = pd.to_datetime(self.data['date'], format="%d/%m/%Y")
 
     def get_last(self, exercise_name, set_number):
         fdata = self.data.loc[(self.data['set'] == int(set_number)) & (self.data['exercise'] == exercise_name)]
