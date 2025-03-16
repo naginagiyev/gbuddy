@@ -112,7 +112,7 @@ def tracking_exercise(update, context):
     workoutdata.current_exercise_data = workoutdata.selected_exercises[workoutdata.current_index]
     if workoutdata.current_set_number <= workoutdata.current_exercise_data["sets"]:
         workoutdata.current_exercise = workoutdata.current_exercise_data['exercise']
-        time.sleep(105)
+        time.sleep(100)
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"🎯 _Set {workoutdata.current_set_number} \- {workoutdata.current_exercise} {workoutdata.current_exercise_data['min_reps']}/{workoutdata.current_exercise_data['max_reps']}_", parse_mode=ParseMode.MARKDOWN_V2)
         context.bot.send_message(chat_id=update.effective_chat.id, text="Neçə təkrar etdin? 🔄", reply_markup=generate_reps_keyboard(workoutdata.current_exercise_data['min_reps'], workoutdata.current_exercise_data['max_reps']))
         context.bot.send_message(chat_id=update.effective_chat.id, text="Neçə kiloqramla işlədin? 🏋️‍♂️", reply_markup=generate_weight_keyboard())
