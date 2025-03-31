@@ -47,7 +47,7 @@ class GymDataAnalyzer:
         return os.path.join(os.getcwd(), "chart.png")
     
     def get_spider_chart(self):
-        potential = {"Chest": 45, "Back": 75, "Shoulders": 20, "Biceps": 40, "Triceps": 50, "Forearms": 50, "Legs": 70, "Abs": 60}
+        potential = {"Chest": 45, "Back": 70, "Shoulders": 20, "Biceps": 40, "Triceps": 50, "Forearms": 50, "Legs": 70, "Abs": 60}
         current = {"Chest": ["Incline Dumbell Press", "Bench Press", "Peck Deck Machine"],
                    "Back": ["Lat Pulldown", "Seated Row", "Seated Machine Row"],
                    "Shoulders": ["Seated Shoulder Press", "Lateral Raises", "Cable Rear Delt Flyes"],
