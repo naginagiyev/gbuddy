@@ -43,5 +43,56 @@ class GymDataAnalyzer:
             margin=dict(l=80, r=80, t=100, b=80)
         )
 
-        fig.write_image("weightprogress.png")
-        return os.path.join(os.getcwd(), "weightprogress.png")
+        fig.write_image("chart.png")
+        return os.path.join(os.getcwd(), "chart.png")
+    
+    def get_spider_chart(self):
+        potential = {"Chest": 45, "Back": 75, "Shoulders": 20, "Biceps": 40, "Triceps": 50, "Forearms": 50, "Legs": 70, "Abs": 60}
+        current = {"Chest": ["Incline Dumbell Press", "Bench Press", "Peck Deck Machine"],
+                   "Back": ["Lat Pulldown", "Seated Row", "Seated Machine Row"],
+                   "Shoulders": ["Seated Shoulder Press", "Lateral Raises", "Cable Rear Delt Flyes"],
+                   "Biceps": ["Cable Rope Hammer Curl", "Cable Biceps Curl Both Biceps", "Cable Biceps Curl One Bicep"],
+                   "Triceps": ["Triceps Pushdowns", "Cable Overhead Triceps Extension"],
+                   "Forearms": ["Cable Wrist Curl", "Reverse Biceps Curl"], 
+                   "Legs": ["Leg Extension", "Leg Curl", "Calf Raises"],
+                   "Abs": ["Cable Crunches"]}
+        
+        for exercise in current.copy():
+            df = self.data[self.data['exercise'].isin(current[exercise])]
+            max_date = df['date'].max() 
+            df = df[df['date'] == max_date]  
+            current[exercise] = round(df['weight'].mean())
+        
+        categories = list(potential.keys())
+        max_vals = list(potential.values())
+        current_vals = [current[cat] for cat in categories]
+
+        normalize = True
+        scale = 100
+
+        if normalize:
+            normalized_current = [current_vals[i]/max_vals[i] * scale for i in range(len(categories))]
+            normalized_max = [scale] * len(categories)
+            
+            plot_current = normalized_current
+            plot_max = normalized_max
+        else:
+            plot_current = current_vals
+            plot_max = max_vals
+
+        categories_closed = categories + [categories[0]]
+        plot_current_closed = plot_current + [plot_current[0]]
+        plot_max_closed = plot_max + [plot_max[0]]
+
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatterpolar(r=plot_current_closed, theta=categories_closed, fill='toself',
+                                    fillcolor='rgba(45, 45, 45, 0.7)', line=dict(color='rgb(255, 165, 0)', width=2), name=''))
+        fig.add_trace(go.Scatterpolar(r=plot_max_closed, theta=categories_closed, fill='none',
+                                    line=dict(color='rgb(180, 180, 180)', width=1, dash='dot'), name=''))
+        fig.update_layout(polar=dict(radialaxis=dict(visible=False, range=[0, scale * 1.1], showticklabels=False, gridcolor='rgba(100, 100, 100, 0.3)', linecolor='rgb(120, 120, 120)',),
+                                    angularaxis=dict(gridcolor='rgba(100, 100, 100, 0.3)', linecolor='rgb(120, 120, 120)',), bgcolor='rgb(30, 30, 30)',), showlegend=False,
+                                    width=700, height=700, margin=dict(l=80, r=80, t=20, b=80), paper_bgcolor='rgb(20, 20, 20)', font=dict(family="Arial, sans-serif", size=14, color="rgb(220, 220, 220)"))
+
+        fig.write_image("chart.png")
+        return os.path.join(os.getcwd(), "chart.png")

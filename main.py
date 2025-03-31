@@ -30,6 +30,7 @@ def set_bot_commands(updater: Updater):
     updater.bot.set_my_commands([BotCommand("start", "Starts a new workout"),
                                  BotCommand("wstats", "Returns weight statistics"),
                                  BotCommand("last", "Returns last reps and weight"),
+                                 BotCommand("spider", "Returns muscle development statistics"),
                                  BotCommand("stop", "Stops the current workout")])
 
 def generate_day_keyboard():
@@ -80,6 +81,16 @@ def get_response(update, context):
     with open(analyst.get_weight_stats(query.data), "rb") as img:
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"{query.data} inkişafın 💪")
     query.delete_message()
+
+def spider(update, context):
+    user_id = update.message.from_user.id
+    if str(user_id) == "1955641675":
+        analyst.load_data()
+        with open(analyst.get_spider_chart(), "rb") as img:
+            context.bot.send_photo(chat_id=update.effective_chat.id, photo=img)
+    else:
+        update.message.reply_text('<b>Sən Nağı deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
+        update.message.reply_text('<b>Üzürlü say. Giriş qadağandır! 👊</b>', parse_mode=ParseMode.HTML)
         
 def start(update, context):
     user_id = update.message.from_user.id
@@ -187,6 +198,7 @@ def main():
     dp.add_handler(CommandHandler('stop', stop))
     dp.add_handler(CommandHandler('last', last))
     dp.add_handler(CommandHandler('wstats', wstats))  
+    dp.add_handler(CommandHandler('spider', spider))  
     dp.add_handler(CallbackQueryHandler(get_response))
 
     set_bot_commands(updater)
