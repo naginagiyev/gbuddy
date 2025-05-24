@@ -31,8 +31,8 @@ class GymDataAnalyzer:
         weights = list(average_weight_dict.values())
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(x=dates, y=weights, mode='lines+markers', name='Weight', line=dict(color='#FFD700', width=3),
-                                marker=dict(size=10, symbol='circle', line=dict(color='#B8860B', width=2))))
+        fig.add_trace(go.Scatter(x=dates, y=weights, mode='lines+markers', name='Weight', line=dict(color='#E19200', width=3),
+                                marker=dict(size=10, symbol='circle', line=dict(color="#E19200", width=2))))
 
         fig.update_layout(
             title={'text': 'Weight Over Time', 'y':0.95, 'x':0.5, 'xanchor': 'center', 'yanchor': 'top', 'font': dict(size=24)},
