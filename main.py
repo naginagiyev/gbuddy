@@ -5,13 +5,17 @@ import warnings
 import numpy as np
 import pandas as pd
 from datetime import datetime
+from dotenv import load_dotenv
 from workout import WorkoutData
 from analyst import GymDataAnalyzer
 from telegram import ParseMode, InlineKeyboardButton, InlineKeyboardMarkup, BotCommand
 from telegram.ext import Updater, CommandHandler, CallbackQueryHandler, ConversationHandler
 
 warnings.filterwarnings("ignore")
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN" # can create your own telegram bot using botfather
+
+load_dotenv()
+TOKEN = os.getenv("TELEGRAM_TOKEN")
+ALLOWED_USER_ID = os.getenv("ALLOWED_USER_ID")
 
 CHOOSING_DAY, TRACKING_EXERCISE, SAVE_DATA = range(3)
 
@@ -50,7 +54,7 @@ def generate_weight_keyboard():
 
 def last(update, context):
     user_id = update.message.from_user.id
-    if str(user_id) == "YOUR_TELEGRAM_CHAT_ID":
+    if str(user_id) == ALLOWED_USER_ID:
         global workoutdata
         analyst.load_data()
         try:
@@ -59,49 +63,47 @@ def last(update, context):
         except:
             update.message.reply_text(f'<i>🗡️ Sonuncu dəfə deyilən bir şey yoxdur</i>', parse_mode=ParseMode.HTML)
     else:
-        update.message.reply_text('<b>Sən [YOUR_NAME] deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
+        update.message.reply_text('<b>Sən Nağı deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
         update.message.reply_text('<b>Üzürlü say. Giriş qadağandır! 👊</b>', parse_mode=ParseMode.HTML)
 
 def wstats(update, context):
     user_id = update.message.from_user.id
-    if str(user_id) == "YOUR_TELEGRAM_CHAT_ID":
+    if str(user_id) == ALLOWED_USER_ID:
         analyst.load_data()
         exercise_names = [exercise["exercise"] for day in dict(exercises).values() for exercise in day]
         buttons = [[InlineKeyboardButton(exercise, callback_data=exercise)] for exercise in exercise_names]
         update.message.reply_text("<i>📊 Hansı hərəkətin statistikalarını görmək istəyirsən ?</i>", parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(buttons))
 
     else:
-        update.message.reply_text('<b>Sən [YOUR_NAME] deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
+        update.message.reply_text('<b>Sən Nağı deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
         update.message.reply_text('<b>Üzürlü say. Giriş qadağandır! 👊</b>', parse_mode=ParseMode.HTML)
 
 def get_response(update, context):
     query = update.callback_query
     query.answer()
 
-    with open(analyst.get_weight_stats(query.data), "rb") as img:
-        context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"{query.data} inkişafın 💪")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=analyst.get_weight_stats(query.data), caption=f"{query.data} inkişafın 💪")
     query.delete_message()
 
 def spider(update, context):
     user_id = update.message.from_user.id
-    if str(user_id) == "YOUR_TELEGRAM_CHAT_ID":
+    if str(user_id) == ALLOWED_USER_ID:
         analyst.load_data()
-        with open(analyst.get_spider_chart(), "rb") as img:
-            context.bot.send_photo(chat_id=update.effective_chat.id, photo=img)
+        context.bot.send_photo(chat_id=update.effective_chat.id, photo=analyst.get_spider_chart())
     else:
-        update.message.reply_text('<b>Sən [YOUR_NAME] deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
+        update.message.reply_text('<b>Sən Nağı deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
         update.message.reply_text('<b>Üzürlü say. Giriş qadağandır! 👊</b>', parse_mode=ParseMode.HTML)
         
 def start(update, context):
     user_id = update.message.from_user.id
-    if str(user_id) == "YOUR_TELEGRAM_CHAT_ID":
+    if str(user_id) == ALLOWED_USER_ID:
         global workoutdata
         workoutdata = WorkoutData()
         update.message.reply_text('<b>🏋️‍♂️ Yeni bir məşqə xoş gəldin rəis 🏋️‍♂️</b>', parse_mode=ParseMode.HTML)
         update.message.reply_text('<i>Bu gün nə günüdür ?</i>', parse_mode=ParseMode.HTML, reply_markup=generate_day_keyboard())
         return CHOOSING_DAY
     else:
-        update.message.reply_text('<b>Sən [YOUR_NAME] deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
+        update.message.reply_text('<b>Sən Nağı deyilsən axı! 🤔</b>', parse_mode=ParseMode.HTML)
         update.message.reply_text('<b>Üzürlü say. Giriş qadağandır! 👊</b>', parse_mode=ParseMode.HTML)
 
 def choose_day(update, context):
@@ -161,8 +163,7 @@ def save_data(update, context):
             workoutdata.current_weight = user_input
             query.delete_message()
         except ValueError as e:
-            with open(analyst.get_weight_stats(query.data), "rb") as img:
-                context.bot.send_photo(chat_id=update.effective_chat.id, photo=img, caption=f"{query.data} inkişafın 💪")
+            context.bot.send_photo(chat_id=update.effective_chat.id, photo=analyst.get_weight_stats(query.data), caption=f"{query.data} inkişafın 💪")
             query.delete_message()
             return SAVE_DATA
 

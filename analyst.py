@@ -1,4 +1,5 @@
 import os
+from io import BytesIO
 import pandas as pd
 from datetime import datetime
 import plotly.graph_objects as go
@@ -6,6 +7,13 @@ import plotly.graph_objects as go
 class GymDataAnalyzer:
     def __init__(self):
         self.data = None
+
+    def _figToImageBuffer(self, fig):
+        buffer = BytesIO()
+        fig.write_image(buffer, format="jpeg")
+        buffer.seek(0)
+        buffer.name = "chart.jpg"
+        return buffer
 
     def load_data(self):
         self.data = pd.read_pickle(os.path.join(os.getcwd(), "data.pkl"))
@@ -43,8 +51,7 @@ class GymDataAnalyzer:
             margin=dict(l=80, r=80, t=100, b=80)
         )
 
-        fig.write_image("chart.png")
-        return os.path.join(os.getcwd(), "chart.png")
+        return self._figToImageBuffer(fig)
     
     def get_spider_chart(self):
         potential = {"Chest": 45, "Back": 70, "Shoulders": 20, "Biceps": 40, "Triceps": 50, "Forearms": 50, "Legs": 70, "Abs": 60}
@@ -94,5 +101,4 @@ class GymDataAnalyzer:
                                     angularaxis=dict(gridcolor='rgba(100, 100, 100, 0.3)', linecolor='rgb(120, 120, 120)',), bgcolor='rgb(30, 30, 30)',), showlegend=False,
                                     width=700, height=700, margin=dict(l=80, r=80, t=20, b=80), paper_bgcolor='rgb(20, 20, 20)', font=dict(family="Arial, sans-serif", size=14, color="rgb(220, 220, 220)"))
 
-        fig.write_image("chart.png")
-        return os.path.join(os.getcwd(), "chart.png")
+        return self._figToImageBuffer(fig)
