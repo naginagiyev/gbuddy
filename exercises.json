@@ -1,29 +1,29 @@
 {
     "Push day": [
-        {"exercise": "Incline Dumbell Press", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Bench Press", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Peck Deck Machine", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Seated Shoulder Press", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Lateral Raises", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Triceps Pushdowns", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Cable Overhead Triceps Extension", "min_reps": 10, "max_reps": 16, "sets": 4}
+        {"exercise": "Incline Dumbbell Press", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 130},
+        {"exercise": "Dumbbell Bench Press", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 130},
+        {"exercise": "Peck Deck Machine", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 75},
+        {"exercise": "Seated Shoulder Press", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 125},
+        {"exercise": "Lateral Raises", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 60},
+        {"exercise": "Triceps Pushdowns", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 75},
+        {"exercise": "Cable Overhead Triceps Extension", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 75}
     ],
     "Pull day": [
-        {"exercise": "Lat Pulldown", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Seated Row", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Seated Machine Row", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Cable Rear Delt Flyes", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Cable Rope Hammer Curl", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Cable Biceps Curl Both Biceps", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Cable Biceps Curl One Bicep", "min_reps": 10, "max_reps": 16, "sets": 4}
+        {"exercise": "Lat Pulldown", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 125},
+        {"exercise": "Seated Row", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 125},
+        {"exercise": "Seated Machine Row", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 110},
+        {"exercise": "Cable Rear Delt Fly", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 60},
+        {"exercise": "Cable Rope Hammer Curl", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 75},
+        {"exercise": "Cable Biceps Curl Both Biceps", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 75},
+        {"exercise": "Cable Biceps Curl One Bicep", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 60}
     ],
     "Leg day": [
-        {"exercise": "Romanian Deadlift", "min_reps": 6, "max_reps": 12, "sets": 3},
-        {"exercise": "Leg Extension", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Leg Curl", "min_reps": 8, "max_reps": 12, "sets": 4},
-        {"exercise": "Calf Raises", "min_reps": 13, "max_reps": 20, "sets": 4},
-        {"exercise": "Cable Crunches", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Cable Wrist Curl", "min_reps": 10, "max_reps": 16, "sets": 4},
-        {"exercise": "Reverse Biceps Curl", "min_reps": 8, "max_reps": 12, "sets": 4}
+        {"exercise": "Romanian Deadlift", "min_reps": 6, "max_reps": 12, "sets": 3, "rest_time": 155},
+        {"exercise": "Leg Extension", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 75},
+        {"exercise": "Leg Curl", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 90},
+        {"exercise": "Calf Raises", "min_reps": 13, "max_reps": 20, "sets": 4, "rest_time": 60},
+        {"exercise": "Cable Crunches", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 60},
+        {"exercise": "Cable Wrist Curl", "min_reps": 10, "max_reps": 16, "sets": 4, "rest_time": 50},
+        {"exercise": "Reverse Biceps Curl", "min_reps": 8, "max_reps": 12, "sets": 4, "rest_time": 75}
     ]
 }

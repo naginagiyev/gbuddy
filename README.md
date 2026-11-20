@@ -39,7 +39,7 @@ GBuddy/
 ├── analyst.py       # Data analysis and chart generation
 ├── workout.py       # WorkoutData class for session state
 ├── exercises.json   # Exercise definitions per workout day
-├── data.pkl         # Persisted workout history (auto-generated)
+├── requirements.txt # Python dependencies
 └── .env             # Environment variables
 ```
 
@@ -48,7 +48,7 @@ GBuddy/
 1. **Clone the repository and install dependencies:**
 
 ```bash
-pip install python-telegram-bot==13.x pandas numpy plotly kaleido python-dotenv
+pip install -r requirements.txt
 ```
 
 2. **Create a `.env` file:**
@@ -56,9 +56,21 @@ pip install python-telegram-bot==13.x pandas numpy plotly kaleido python-dotenv
 ```env
 TELEGRAM_TOKEN=your_bot_token_here
 ALLOWED_USER_ID=your_telegram_user_id_here
+CONNECTION_STRING=postgresql://user:password@host:5432/dbname
 ```
 
-3. **Initialize the data file** by creating an empty pickle file, or let the bot create one on first save.
+3. **Create the database table.** Workout history is stored in a PostgreSQL table named `gymdata`:
+
+```sql
+CREATE TABLE gymdata (
+    date TEXT,
+    day TEXT,
+    exercise TEXT,
+    set INTEGER,
+    weight DOUBLE PRECISION,
+    reps INTEGER
+);
+```
 
 4. **Run the bot:**
 
@@ -68,4 +80,4 @@ python main.py
 
 ## Customizing Exercises 📝
 
-Workout days and exercises are defined in `exercises.json`. Each entry specifies the exercise name, rep range (`min_reps` / `max_reps`), and number of sets. You can add, remove, or rename days and exercises to match your own routine.
+Workout days and exercises are defined in `exercises.json`. Each entry specifies the exercise name, rep range (`min_reps` / `max_reps`), number of sets, and rest time between sets in seconds (`rest_time`). You can add, remove, or rename days and exercises to match your own routine.
