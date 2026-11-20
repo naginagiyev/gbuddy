@@ -1,7 +1,5 @@
 # GBuddy
 
-![GBuddy Banner](banner.jpg)
-
 A personal Telegram bot for tracking gym workouts. GBuddy guides you through your workout session set by set, logs your reps and weight, and provides progress analytics with charts.
 
 ## Features 🏋️
